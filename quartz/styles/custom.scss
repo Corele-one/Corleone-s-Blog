@@ -1,3 +1,11 @@
 @use "./variables.scss" as *;
 
-// put your custom CSS here!
+:root {
+  --bodyFont: "LXGW WenKai Screen", serif;
+  --headerFont: "LXGW WenKai Screen", serif;
+  --codeFont: "JetBrains Mono", monospace;
+}
+
+.note-properties {
+  display: none;
+}

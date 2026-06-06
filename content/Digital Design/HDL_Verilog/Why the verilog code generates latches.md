@@ -1,0 +1,3 @@
+Syntactically-correct code does not necessarily result in a reasonable circuit (combinational logic + flip-flops). The usual reason is: "What happens in the cases other than those you specified?". **Verilog's answer is: Keep the outputs unchanged.**
+
+This behaviour of "keep outputs unchanged" means ==the current state needs to be _remembered_, and thus produces a _latch_.== Combinational logic (e.g., logic gates) cannot remember any state. Watch out for Warning (10240): ... inferring latch(es)" messages. Unless the latch was intentional, it almost always indicates a bug. ==Combinational circuits must have a value assigned to all outputs under all conditions. ==This usually means you always need else clauses or a default value assigned to the outputs.
