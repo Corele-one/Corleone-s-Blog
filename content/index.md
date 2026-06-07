@@ -17,6 +17,7 @@ Welcome to my digital garden！
 - [[Digital Design/|🔧 数字设计 Digital Design]] — Verilog HDL、FSM、时序逻辑、流水线
 - [[Signal and System/|📡 信号与系统 Signal and System]] — 傅里叶变换、频域分析、滤波器设计
 - [[CIM/|🧠 计算存储 CIM]] — Memory-Centered Calculation、存内计算架构
+- [[Device Note|📄 器件笔记 Device Note]] — 器件相关学习笔记与 PDF 原文
 
 ---
 
