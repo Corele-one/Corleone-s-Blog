@@ -10,6 +10,8 @@ Welcome to my digital garden！
 
 我目前的学术与工程兴趣主要集中在数字 IC 设计、计算机体系结构。关注存内计算（CIM）、Architecture，AI Infra等方向。
 
+> 作者目前在准备期末考试，沉淀两个月再来更新
+
 
 
 
