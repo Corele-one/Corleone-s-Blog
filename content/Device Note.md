@@ -8,4 +8,4 @@ title: Device Note
 
 ![[Device Note.pdf]]
 
-[在新窗口打开或下载 PDF](./device-note.pdf)
+[在新窗口打开或下载 PDF](./Device%20Note.pdf)
