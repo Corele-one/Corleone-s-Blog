@@ -185,10 +185,21 @@ plugins:
       priority: 5
       condition: not-index
   - source: github:quartz-community/comments
-    enabled: false
+    enabled: true
     options:
       provider: giscus
-      options: {}
+      options:
+        repo: Corele-one/Corleone-s-Blog
+        repoId: R_kgDOSypDKA
+        category: Announcements
+        categoryId: DIC_kwDOSypDKM4C_NQr
+        mapping: pathname
+        strict: true
+        reactionsEnabled: true
+        inputPosition: top
+        lightTheme: light
+        darkTheme: dark
+        lang: zh-CN
     layout:
       position: afterBody
       priority: 10
@@ -196,7 +207,8 @@ plugins:
     enabled: true
     options:
       links:
-        GitHub: https://github.com/jackyzha0/quartz
+        GitHub: https://github.com/Corele-one
+        Feedback: https://github.com/Corele-one/Corleone-s-Blog/discussions
         Discord Community: https://discord.gg/cRFFHYye7t
   - source: github:quartz-community/recent-notes
     enabled: false
