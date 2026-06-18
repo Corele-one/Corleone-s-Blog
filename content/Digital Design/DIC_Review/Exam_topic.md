@@ -111,3 +111,114 @@ There is a logic equation Z=a'+bc. Draw its CMOS circuit diagram.
 此处画的有些不严谨，更严谨的画法是把a所连接的pmos的bubble朝左画，否则这样的画法看起来很像transition gate
 
 ---
+# 时序逻辑
+
+![[file-20260618083516465.png|794]]
+
+![[file-20260618083744575.png|859]]
+
+数据八位，传输9位，最后一位为奇偶校验位(UART)
+
+奇校验编码的方式
+```Verilog
+wire odd_parity;
+assign odd_parity = ~(^(din));
+```
+
+分频器
+```Verilog
+module frequency_divider (
+    input  wire clk,
+    input  wire rst_n,
+    output reg  clk_en
+);
+
+    reg [4:0] cnt; // 20分频需要计数 0~19，5位宽足够
+
+    always @(posedge clk or negedge rst_n) begin
+        if (!rst_n) begin
+            cnt    <= 5'd0;
+            clk_en <= 1'b0;
+        end else begin
+            if (cnt == 5'd19) begin
+                cnt    <= 5'd0;
+                clk_en <= 1'b1; // 满20个周期产生一个单脉冲使能
+            end else begin
+                cnt    <= cnt + 1'b1;
+                clk_en <= 1'b0;
+            end
+        end
+    end
+
+endmodule
+```
+
+并串转换(采用移位寄存器)，因为题目要求先传输LSB，所以说要使用一个右移的移位寄存器
+```Verilog
+module parallel_to_serial (
+    input  wire       clk,
+    input  wire       rst_n,
+    input  wire       clk_en,
+    input  wire       load,
+    input  wire [7:0] din,
+    output reg        dout
+);
+
+    reg [8:0] shift_reg; // 9位移位寄存器：[7:0]存数据，[8]存奇校验位
+    reg [3:0] bit_cnt;   // 计数发送了多少位 (0~8)
+
+    // 奇校验位计算
+    wire odd_parity = ~(^din);
+
+    always @(posedge clk or negedge rst_n) begin
+        if (!rst_n) begin
+            shift_reg <= 9'd0;
+            dout      <= 1'b0;
+        end else if (load) begin
+            // load为1时，同步加载数据和校验位
+            shift_reg <= {odd_parity, din}; 
+            // 校验位放在最高位，方便从LSB向右移出
+        end else if (clk_en) begin
+            // load为0且分频时钟使能到达时，串行移位输出
+            dout      <= shift_reg[0];      
+            // 输出当前最低位(LSB优先)
+            shift_reg <= {1'b0, shift_reg[8:1]}; 
+            // 右移一位，高位补0
+        end
+    end
+
+endmodule
+```
+
+顶层模块(采用结构化描述)
+```Verilog
+module top (
+    input  wire       clk,
+    input  wire       rst_n,
+    input  wire       load,
+    input  wire [7:0] din,
+    output wire       dout
+);
+
+    // 内部连线：分频器输出的使能信号
+    wire clk_en;
+
+    // 例化分频器模块
+    frequency_divider u_frequency_divider (
+        .clk    (clk),
+        .rst_n  (rst_n),
+        .clk_en (clk_en)
+    );
+
+    // 例化并串转换器模块
+    parallel_to_serial u_parallel_to_serial (
+        .clk    (clk),
+        .rst_n  (rst_n),
+        .clk_en (clk_en),
+        .load   (load),
+        .din    (din),
+        .dout   (dout)
+    );
+
+endmodule
+```
