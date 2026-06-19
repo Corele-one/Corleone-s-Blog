@@ -8,7 +8,7 @@
 门和其他语句需要通过实例语句来将其实例化，一般采用下面这种形式来对模块进行实例化，这样更能明确端口之间的对应关系
 
 实例语句：
-``` Verilog
+```verilog
 component-name instance-identifier(
 .port-name(expr),
 .port-name(expr),
@@ -29,7 +29,7 @@ component-name instance-identifier(
 
 一个禁止门的结构化Verilog模型($\text{out} = \text{in} \cdot \overline{\text{invin}}$)
 
-```Verilog
+```verilog
 module Inh(in,invin,out);
 	input in,invin;
 	output out;
@@ -44,7 +44,7 @@ endmodule
 
 ![[file-20260616000219246.png|688x176]]
 
-```Verilog
+```verilog
 module VrXOR(in1,in2,out);
 	input in1,in2;
 	output out;
@@ -73,7 +73,7 @@ eg1:用连续赋值语句来描述下图电路：
 
 ![[file-20260616001724532.png|764x257]]
 
-```Verilog
+```verilog
 module prime(N,F);
 	input[3:0] N;
 	output F;
@@ -83,7 +83,7 @@ endmodule
 ```
 
 eg2:用于选择一个输入字节(一个字节8位)的Verilog模块(其中selA信号的优先级最高，其次是selB,selC，如果没有选择则输出为0)
-```Verilog
+```verilog
 module bytesel(A,B,C,selA,selB,selC,Z);
 	input [7:0] A,B,C;
 	input selA,selB,selC;
@@ -99,7 +99,7 @@ endmodule
 
 always 程序块中的过程语句是按顺序执⾏的，然⽽，always 程序块本身⼜要跟同⼀个模块（实例、连续赋值以及 always ) 中的其他并发语句⼀起并⾏地执⾏
 
-```Verilog
+```verilog
 1.
 always @ (signal-name or signal-name...or signal-name)
 	procedure-statement
@@ -123,7 +123,7 @@ always procedure-statement
 ![[file-20260617235445065.png|738x350]]
 
 说简单点就是，考虑下面这样的一个过程块，假设对信号X赋值，sel为1位选择信号
-```Verilog
+```verilog
 
 always @(*) begin
 	if(sel==1'b0) begin
@@ -134,7 +134,7 @@ end
 
 那么在这种情况下，在sel\==1'b1的情况下，X就会无值可赋，这样的话，综合器就会综合出如下的代码，产生锁存器
 
-```Verilog
+```verilog
 always @(*) begin
 	if(sel==1'b0) begin
 		X = 1'b0;
@@ -150,7 +150,7 @@ end
 ## 赋值语句
 
 
-```Verilog
+```verilog
 variable-name = expression;//阻塞赋值
 variable-name <= expression;//非阻塞赋值
 ```
@@ -159,7 +159,7 @@ variable-name <= expression;//非阻塞赋值
 
 而阻塞赋值的区别就是在于，在同一个过程块里，只有在对左边项的赋值结束后，才会到下一行语句的计算。而非阻塞赋值，可以理解为同一过程块中的语句并行进行计算，在过程块结束的时候，把值同时赋给左边。
 比如
-```Verilog
+```verilog
 always @(posedge clk) begin   
 	 a <= b;    
 	 b <= a;
@@ -168,13 +168,13 @@ always @(posedge clk) begin
 
 在某个 `posedge clk` 到来时，假设原来：
 
-```Verilog
+```verilog
 a = 1;b = 0;
 ```
 
 执行过程是：
 
-```Verilog
+```verilog
 a <= b;   // 先读取旧的 b，也就是 0，预约 a 之后变成 0
 b <= a;   // 先读取旧的 a，也就是 1，预约 b 之后变成 1
 ```
@@ -190,7 +190,7 @@ a = 0;b = 1;
 ---
 而阻塞赋值 `=` 是：
 
-```Verilog
+```verilog
 always @(posedge clk) begin    
 	a = b;    
 	b = a;
@@ -199,13 +199,13 @@ end
 
 还是假设原来：
 
-```Verilog
+```verilog
 a = 1;b = 0;
 ```
 
 执行过程是：
 
-```Verilog
+```verilog
 a = b;   // a 立刻变成 0
 b = a;   // 此时读到的 a 已经是 0，所以 b 也变成 0
 ```
@@ -235,7 +235,7 @@ a = 0;b = 0;
 
 使用if语句构成素数检测器模块
 
-```Verilog
+```verilog
 module Vrprimei (N, F);
     input [3:0] N;
     output reg F;
@@ -283,7 +283,7 @@ case语句中的choice一般都是互斥的，这样就能编译出更便宜更�
 
 使用for循环语句设计一个八位比较器
 
-```Verilog
+```verilog
 module comp(X,Y,gt);
 	input [7:0] X,Y;
 	output reg gt;
@@ -303,7 +303,7 @@ endmodule
 
 在这个组合逻辑 `always @(X, Y)` 里面，综合器会把这个 `for` 循环展开成一堆组合逻辑，大概等价于：
 
-```Verilog
+```verilog
 gt = 0;
 if (X[0] & ~Y[0]) 
 	gt = 1;
@@ -336,7 +336,7 @@ else if (~X[7] & Y[7])
 
 编写素数检测器的testbench
 
-```Verilog
+```verilog
 `timescale 1ns / 100ps
 module prime_tb1();
 	reg [3:0] Num;
