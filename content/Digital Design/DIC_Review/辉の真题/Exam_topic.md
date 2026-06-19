@@ -22,7 +22,7 @@
 
 组合电路设计，常用语句：连续赋值(assign)、过程块
 
-```Verilog
+```verilog
 module XOR(A,B,C);
 	input A,B;
 	output C;
@@ -42,7 +42,7 @@ endmodule
 
 ![[IMG_1886.jpeg|1486]]
 
-```Verilog
+```verilog
 module Vr7segdec(Dig,a,b,c,d,e,f,g);
 	input  [3:0] Dig;
 	output reg   a,b,c,d,e,f,g;   // 注意低电平有效
@@ -69,7 +69,7 @@ endmodule
 
 ![[IMG_1887.jpeg|1926]]
 
-```Verilog
+```verilog
 // 10 位加法器：A + B = {C, S}
 module Adder10(A, B, C, S);
 	input  [9:0] A, B;
@@ -120,13 +120,13 @@ There is a logic equation Z=a'+bc. Draw its CMOS circuit diagram.
 数据八位，传输9位，最后一位为奇偶校验位(UART)
 
 奇校验编码的方式
-```Verilog
+```verilog
 wire odd_parity;
 assign odd_parity = ~(^(din));
 ```
 
 分频器
-```Verilog
+```verilog
 module frequency_divider (
     input  wire clk,
     input  wire rst_n,
@@ -154,7 +154,7 @@ endmodule
 ```
 
 并串转换(采用移位寄存器)，因为题目要求先传输LSB，所以说要使用一个右移的移位寄存器
-```Verilog
+```verilog
 module parallel_to_serial (
     input  wire       clk,
     input  wire       rst_n,
@@ -191,7 +191,7 @@ endmodule
 ```
 
 顶层模块(采用结构化描述)
-```Verilog
+```verilog
 module top (
     input  wire       clk,
     input  wire       rst_n,
