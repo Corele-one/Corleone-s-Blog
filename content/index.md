@@ -4,10 +4,7 @@ title: Corleone's Blog
 
 > Microelectronics Science and Engineering
 
-欢迎来到我的数字花园。
-
-这里记录我在微电子、集成电路与计算机体系结构方向的课程笔记、工程实践和阶段性思考。目前内容主要覆盖模拟电路、数字 IC 设计、Verilog、信号与系统，以及存内计算（CIM）。
-
+Welcome to my digital garden！
 
 ## 内容导航
 
