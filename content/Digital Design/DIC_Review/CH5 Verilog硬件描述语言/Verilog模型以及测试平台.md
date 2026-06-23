@@ -8,7 +8,7 @@
 门和其他语句需要通过实例语句来将其实例化，一般采用下面这种形式来对模块进行实例化，这样更能明确端口之间的对应关系
 
 实例语句：
-```verilog
+``` Verilog
 component-name instance-identifier(
 .port-name(expr),
 .port-name(expr),
