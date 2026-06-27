@@ -488,6 +488,10 @@ figure[data-rehype-pretty-code-figure] {
 
 pre {
   font-family: var(--codeFont);
+  font-variant-ligatures: none;
+  font-feature-settings:
+    "liga" 0,
+    "calt" 0;
   padding: 0 0.5rem;
   border-radius: 5px;
   overflow-x: auto;
@@ -548,6 +552,10 @@ code {
   font-size: 0.9em;
   color: var(--dark);
   font-family: var(--codeFont);
+  font-variant-ligatures: none;
+  font-feature-settings:
+    "liga" 0,
+    "calt" 0;
   border-radius: 5px;
   padding: 0.1rem 0.2rem;
   background: var(--lightgray);

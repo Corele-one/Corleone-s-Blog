@@ -9,3 +9,17 @@
 .note-properties {
   display: none;
 }
+
+.page article {
+  :is(strong, b) {
+    color: red;
+  }
+
+  p > :is(strong, b) {
+    color: red;
+  }
+
+  :is(em, i) {
+    color: green;
+  }
+}
