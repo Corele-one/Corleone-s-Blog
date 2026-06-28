@@ -106,9 +106,9 @@ F=(A'&D)|(A'&B'&C)|(B'&C&D)|(B&C'&D)
 
 画CMOS电路：
 There is a logic equation Z=a'+bc. Draw its CMOS circuit diagram.
-![[file-20260616112642887.png|601x500]]
 
-此处画的有些不严谨，更严谨的画法是把a所连接的pmos的bubble朝左画，否则这样的画法看起来很像transition gate
+![[file-20260628111907838.png]]
+
 
 ---
 # 时序逻辑
