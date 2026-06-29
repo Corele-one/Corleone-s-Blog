@@ -203,6 +203,11 @@ plugins:
     layout:
       position: afterBody
       priority: 10
+  - source: ./plugins/page-navigation
+    enabled: true
+    layout:
+      position: afterBody
+      priority: 5
   - source: github:quartz-community/footer
     enabled: true
     options:

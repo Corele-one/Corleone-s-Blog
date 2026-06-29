@@ -106,7 +106,7 @@ module VrDFFCLR(CLK,CLR,D,Q);
 endmodule
 ```
 
-## 带有Q_N输出的D触发器的错误模型
+## 带有Q_N输出的D触发器的**错误**模型
 
 ```verilog
 module VrDffCNoops(CLK, CLR, D, Q, QN);
@@ -171,7 +171,7 @@ module VrDFFSE(CLK,S,CE,D,Q);
 	always @(posedge CLK)//同步置位，所以说敏感信号列表里只有时钟
 		if(S==1) Q<=1;
 		else if(CE==1) Q<=D;
-	//这里没有else，行为就是Q<=Q是一个锁死的触发器
+	//这里没有else，行为就是Q<=Q是一个锁死的触发器,写不写都行
 	endmodule
 endmodule
 ```
@@ -290,3 +290,5 @@ endmodule
 ```
 
 ![[file-20260626193424797.png|594]]
+
+注意**always语句**设计时钟的方式以及用**initial语句**对**时钟初始化**的方法
