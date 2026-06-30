@@ -1,0 +1,27 @@
+{
+  "name": "page-navigation",
+  "version": "1.0.0",
+  "description": "Previous and next page navigation for Quartz",
+  "type": "module",
+  "exports": {
+    ".": "./index.js",
+    "./components": "./components/index.js"
+  },
+  "main": "./index.js",
+  "quartz": {
+    "name": "page-navigation",
+    "displayName": "Page Navigation",
+    "description": "Shows previous and next links for sibling pages",
+    "category": "component",
+    "version": "1.0.0",
+    "quartzVersion": ">=5.0.0",
+    "components": {
+      "PageNavigation": {
+        "displayName": "Page Navigation",
+        "description": "Previous and next page navigation",
+        "defaultPosition": "afterBody",
+        "defaultPriority": 5
+      }
+    }
+  }
+}
