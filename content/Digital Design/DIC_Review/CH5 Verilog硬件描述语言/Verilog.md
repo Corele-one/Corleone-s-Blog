@@ -59,6 +59,75 @@ Verilog ⽹格声明（net declaration ) 的语法类似于输⼈ / 输出声明
 
 ![[file-20260614232004350.png|816]]
 
+### 端口声明与例化中的类型约束
+
+上述区别直接决定了 wire 和 reg 在**声明模块**和**实例化模块**时端口可接受的类型。
+
+#### 1. 声明模块时的端口声明
+
+声明模块时，端口方向与类型一起或分开指定：
+
+```verilog
+// ANSI 风格：端口名、方向、类型一起声明
+module my_module (
+    input  wire       a,        // ✅ input 只能为 wire（net类型）
+    input  wire [3:0]  c,       // ✅ wire 向量输入
+    output wire       y1,       // ✅ output 可以为 wire
+    output reg        y2        // ✅ output 也可以为 reg
+);
+    // y2 作为 reg 输出，必须在过程块中赋值
+    always @(*) begin
+        y2 = a & c[0];
+    end
+    // y1 作为 wire 输出，用 assign 连续赋值
+    assign y1 = c[0];
+endmodule
+```
+
+**声明模块时端口可选类型小结：**
+
+| 端口方向 | 可选类型 | 说明 |
+|---------|---------|------|
+| `input` | **只能是 wire** | 输入信号值来自模块外部，模块内部只读取不赋值，故只能为 net 类型 |
+| `output` | **wire 或 reg** | wire 用 `assign` 驱动；reg 在 `always/initial` 过程块中赋值 |
+
+> ⚠️ 如果不指定端口类型，**默认为1位wire**。在最常见的使用场景中，声明模块时 input 和 output 都声明为 wire 即可，只有当 output 需要在 `always/initial` 过程块中赋值时才声明为 reg。
+
+#### 2. 实例化模块时的端口连接
+
+在模块外部进行例化时，需要将外部信号连接到模块端口：
+
+```verilog
+module top;
+    reg  [7:0] data_in;    // reg 变量
+    wire [7:0] data_out;   // wire 网格
+    wire       clk;
+
+    my_module u_inst (
+        .a  (clk),          // ✅ input 端口：可接 wire
+        .b  (data_in),      // ✅ input 端口：也可接 reg（外部驱动模块输入）
+        .y1 (data_out[0]),  // ✅ output 端口：接 wire
+        .y2 (data_in[0])    
+        // ❌ ERROR！output 端口不能接 reg
+    );
+endmodule
+```
+
+**实例化模块时端口连接可接受类型小结：**
+
+| 端口方向 | 可连接的外部类型 | 说明 |
+|---------|---------------|------|
+| `input` 端口 | **wire 或 reg** | 实例化时是从外部驱动模块输入，reg 和 wire 均可 |
+| `output` 端口 | **只能接 wire** | reg 不能通过模块端口连接驱动，因为需要从模块内部改变 reg 变量的值 |
+
+#### 3. 核心规则一句话总结
+
+> **声明模块时**：`input` 只能声明为 `wire`；`output` 可以是 `wire` 或 `reg`。
+>
+> **实例化模块时**：`input` 端口可以连接 `wire` 或 `reg`；`output` 端口只能连接 `wire`。
+
+这正是图中定义的体现：**Net 类型可以在模块端口连接中接收 reg 类型的驱动**（实例化时 input 可接 reg），而 **reg 类型不能连接到模块实例化的输出端口**（实例化时 output 只能接 wire）。
+
 ## 数值文字的书写
 如果不加其他修饰的话，那么字串会被解释为十进制数字
 

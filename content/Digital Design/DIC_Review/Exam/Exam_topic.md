@@ -14,7 +14,7 @@
 ![[IMG_1881.jpeg|1894]]
 
 7. Verilog 逻辑操作符
-8. 门控锁存器
+8. D-Latch
 
 *还可能有的题型：选择题、判断题*
 
@@ -114,6 +114,58 @@ There is a logic equation Z=a'+bc. Draw its CMOS circuit diagram.
 # 时序逻辑
 
 ![[file-20260618083516465.png|794]]
+
+```verilog
+module FSM(clk,X,Z,rst);
+	input clk,rst;//rst复位，题目暗示初始状态，所以需要复位信号
+	input X;
+	output Z;
+	reg [1:0] Q1,Q2;//题目要求
+	
+	parameter [1:0] A=2'b11,B=2'b10,C=2'b01,D=2'b00;
+	//1.状态存储器
+	always@(posedge clk) begin
+		if(rst)//同步复位，本题没有指明
+			Q1<=A;
+		else
+			Q1<=Q2;
+	end
+	
+	//2.次态逻辑
+	//纯组合逻辑，敏感信号写@(*)也行，只是课本里习惯写成输入变量和当前状态
+	always@(X,Q1) begin 
+		case(Q1):
+			A: begin
+				if(X==1)
+					Q2<=C;
+				else
+					Q2<=B;
+			end
+			B: begin
+				if(X==1)
+					Q2<=D;
+				else
+					Q2<=C;
+			end
+			C: begin
+				if(X==1)
+					Q2<=A;
+				else
+					Q2<=D;
+			end
+			D: begin
+				if(X==1)
+					Q2<=B;
+				else
+					Q2<=A;
+			end
+			default:Q2<=A;    
+		endcase
+	end
+	
+	assign Z=(Q1==D)?1'b1:1'b0;
+endmodule
+```
 
 ![[file-20260618083744575.png|859]]
 
