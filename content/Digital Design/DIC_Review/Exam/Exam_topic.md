@@ -35,7 +35,7 @@ module odd_parity(A,F);//奇校验
 	wire A_1,A_2;
 	XOR xor1(.A(A[0]),.B(A[1]),.C(A_1));
 	XOR xor2(.A(A[2]),.B(A[3]),.C(A_2));
-	XOR xor3(.A(A_1),.B(A_2),.C(F));
+	XOR xor3(.A(A_1),.B(A_2),.C(~F));
 endmodule
 //结构型描述、数据流描述(assign)、行为级描述(always)
 ```
