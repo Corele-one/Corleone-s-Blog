@@ -29,13 +29,16 @@ module XOR(A,B,C);
 	assign C = A^B;
 endmodule
 //一般两问之间是有联系的
-module odd_parity(A,F);//奇校验
+module odd_parity(A,F);//生成奇校验位
 	input [3:0] A;
 	output F;
-	wire A_1,A_2;
+	wire A_1,A_2,F1;
 	XOR xor1(.A(A[0]),.B(A[1]),.C(A_1));
 	XOR xor2(.A(A[2]),.B(A[3]),.C(A_2));
-	XOR xor3(.A(A_1),.B(A_2),.C(~F));
+	XOR xor3(.A(A_1),.B(A_2),.C(F1));
+	not u1(F,F1);
+	//取个非，因为奇校验位的意思是
+	//偶数个1的时候F=1，奇数个1的时候输出0
 endmodule
 //结构型描述、数据流描述(assign)、行为级描述(always)
 ```
