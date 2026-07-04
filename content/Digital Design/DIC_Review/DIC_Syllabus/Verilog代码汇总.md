@@ -1731,17 +1731,19 @@ assign {BOUT, D} = {1'b0, A} - {1'b0, B} - {1'b0, BIN};
 源代码：
 
 ```verilog
-module VrAdder(A,B,CIN,S,COUT);
-	parameter N=16;//加数与和的宽度
-	input [N-1:0] A,B;
-	input CIN;
-	output [N-1:0] S;
-	output COUT;
-	
-	assign {COUT,S}=A+B+CIN;
+module Vradders(A,B,C,D,S,T,OVFL,COUT);
+	parameter N=16;
+	input [N-1:0] A,B,C,D;
+	output [N-1:0] S,T;
+	output OVFL,COUT;
+	//有符号加法，S和OVFL(overflow)
+	assign S = A+B;
+	assign OVFL=(B[N-1]==A[N-1]) && (S[N-1]!=A[N-1]);
+	//加数符号位相同，但是和的符号位不同，即溢出
+	//无符号加法，T和进位COUT
+	assign {COUT,S}=C+D;
 endmodule
 ```
-
 #### 55. Vradders
 
 - 分类：组合逻辑
