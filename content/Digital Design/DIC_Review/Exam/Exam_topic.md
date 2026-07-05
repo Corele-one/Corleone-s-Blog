@@ -140,29 +140,29 @@ module FSM(clk,X,Z,rst);
 		case(Q1):
 			A: begin
 				if(X==1)
-					Q2<=C;
+					Q2=C;
 				else
-					Q2<=B;
+					Q2=B;
 			end
 			B: begin
 				if(X==1)
-					Q2<=D;
+					Q2=D;
 				else
-					Q2<=C;
+					Q2=C;
 			end
 			C: begin
 				if(X==1)
-					Q2<=A;
+					Q2=A;
 				else
-					Q2<=D;
+					Q2=D;
 			end
 			D: begin
 				if(X==1)
-					Q2<=B;
+					Q2=B;
 				else
-					Q2<=A;
+					Q2=A;
 			end
-			default:Q2<=A;    
+			default:Q2=A;    
 		endcase
 	end
 	
