@@ -216,7 +216,7 @@ module parallel_to_serial (
     input  wire       clk_en,
     input  wire       load,
     input  wire [7:0] din,
-    output reg        dout
+    output wire        dout
 );
 
     reg [8:0] shift_reg; // 9位移位寄存器：[7:0]存数据，[8]存奇校验位
@@ -228,20 +228,19 @@ module parallel_to_serial (
     always @(posedge clk or negedge rst_n) begin
         if (!rst_n) begin
             shift_reg <= 9'd0;
-            dout      <= 1'b0;
         end else if (load) begin
             // load为1时，同步加载数据和校验位
             shift_reg <= {odd_parity, din}; 
             // 校验位放在最高位，方便从LSB向右移出
         end else if (clk_en) begin
             // load为0且分频时钟使能到达时，串行移位输出
-            dout      <= shift_reg[0];      
-            // 输出当前最低位(LSB优先)
             shift_reg <= {1'b0, shift_reg[8:1]}; 
             // 右移一位，高位补0
         end
     end
-
+    // 输出当前最低位(LSB优先)
+	assign dout <= shift_reg[0];      
+	
 endmodule
 ```
 

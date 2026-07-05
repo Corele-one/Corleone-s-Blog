@@ -53,7 +53,7 @@ module VrXOR(in1,in2,out);
 	VrInh U1(.out(inh1),.invin(in2),.in(in1));
 	VrInh U2(.out(inh2),.invin(in1),.in(in2));
 	not U3(notinh2,inh2);
-	VrInh U3(.out(notout),.invin(inh1),.in(notinh2));
+	VrInh U4(.out(notout),.invin(inh1),.in(notinh2));
 	not U5(out,notout);
 endmodule
 ```
