@@ -1,5 +1,4 @@
 .DS_Store
-.gitignore
 node_modules
 public
 prof
@@ -11,4 +10,5 @@ private/
 replit.nix
 .quartz/
 quartz/cli/tui/dist/
-publish.sh
+.local/
+__pycache__/

@@ -1,0 +1,43 @@
+{
+  "include": ["Blog", "Lecture", "Note", "Research/Research-Insight", "Research/Project"],
+  "extensions": [
+    ".md",
+    ".pdf",
+    ".png",
+    ".jpg",
+    ".jpeg",
+    ".svg",
+    ".gif",
+    ".webp",
+    ".heic",
+    ".avif",
+    ".mp3",
+    ".mp4",
+    ".wav",
+    ".canvas",
+    ".base",
+    ".excalidraw"
+  ],
+  "excludeNames": ["node_modules", "__pycache__", "venv"],
+  "sitePages": {
+    "site/index.md": "index.md",
+    "site/Blog.md": "Blog/index.md",
+    "site/Lecture.md": "Lecture/index.md",
+    "site/Note.md": "Note/index.md",
+    "site/Research.md": "Research/index.md",
+    "site/Research-Insight.md": "Research/Research-Insight/index.md",
+    "site/Project.md": "Research/Project/index.md"
+  },
+  "legacyPaths": [
+    "Analog",
+    "Digital Design",
+    "Signal and System",
+    "CIM",
+    "Device Note.md",
+    "device_note.pdf",
+    "Latex Cheatsheet.md",
+    "Markdown Cheatsheet.md",
+    "Terminal for MAC.md",
+    ".gitkeep"
+  ]
+}

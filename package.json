@@ -12,13 +12,22 @@
     "url": "https://github.com/jackyzha0/quartz.git"
   },
   "scripts": {
+    "sync:preview": "python3 scripts/sync_study.py",
+    "sync": "python3 scripts/sync_study.py --apply",
+    "sync:check": "python3 scripts/sync_study.py --check",
+    "test:sync": "python3 -m unittest discover -s scripts -p 'test_*.py'",
+    "test:links": "node --test scripts/study-links.test.mjs",
+    "build": "node quartz/bootstrap-cli.mjs build",
+    "verify:site": "node scripts/check_site.mjs",
+    "preview": "node quartz/bootstrap-cli.mjs build --serve",
+    "publish": "bash publish.sh",
     "quartz": "./quartz/bootstrap-cli.mjs",
     "docs": "npx quartz build --serve -d docs",
     "check": "tsc --noEmit && npx prettier . --check",
     "format": "npx prettier . --write",
     "test": "tsx --test",
     "profile": "0x -D prof ./quartz/bootstrap-cli.mjs build --concurrency=1",
-    "install-plugins": "npx tsx ./quartz/plugins/loader/install-plugins.ts",
+    "install-plugins": "node quartz/bootstrap-cli.mjs plugin install",
     "prebuild": "npm run install-plugins"
   },
   "engines": {

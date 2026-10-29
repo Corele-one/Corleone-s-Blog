@@ -1,6 +1,6 @@
 # yaml-language-server: $schema=./quartz/plugins/quartz-plugins.schema.json
 configuration:
-  pageTitle: Corleone's Notes
+  pageTitle: Corleone's Blog
   pageTitleSuffix: ""
   enableSPA: true
   enablePopovers: true
@@ -12,6 +12,8 @@ configuration:
     - private
     - templates
     - .obsidian
+    - "**/.*"
+    - "**/.*/**"
   theme:
     fontOrigin: googleFonts
     cdnCaching: true
@@ -78,6 +80,9 @@ plugins:
     options:
       markdownLinkResolution: shortest
     order: 60
+  - source: ./plugins/study-links
+    enabled: true
+    order: 55
   - source: github:quartz-community/description
     enabled: true
     order: 70

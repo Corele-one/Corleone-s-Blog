@@ -43,8 +43,13 @@ jobs:
           restore-keys: ${{ runner.os }}-plugins-
 
       - run: npm ci
-      - run: npx quartz plugin install
-      - run: npx quartz build
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: npm run test:sync
+      - run: npm run test:links
+      - run: npm run build
+      - run: npm run verify:site
 
       - uses: actions/upload-pages-artifact@v4
         with:

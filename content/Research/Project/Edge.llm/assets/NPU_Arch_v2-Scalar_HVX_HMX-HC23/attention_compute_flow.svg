@@ -1,0 +1,112 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1500" height="980" viewBox="0 0 1500 980" role="img" aria-labelledby="title desc">
+  <title id="title">Hexagon FlashAttention Compute Flow</title>
+  <desc id="desc">English flow diagram of Scalar Core, HVX, HMX, VTCM, and online softmax dataflow.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L10,3 L0,6 Z" fill="#25323b"/>
+    </marker>
+    <marker id="arrow-dashed" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L10,3 L0,6 Z" fill="#65747e"/>
+    </marker>
+    <style>
+      .bg { fill: #f7f9fb; }
+      .title { font: 700 29px Arial, sans-serif; fill: #14212b; }
+      .subtitle { font: 16px Arial, sans-serif; fill: #50616d; }
+      .lane { font: 700 17px Arial, sans-serif; fill: #14212b; }
+      .box-title { font: 700 18px Arial, sans-serif; fill: #14212b; }
+      .box-body { font: 15px Arial, sans-serif; fill: #243641; }
+      .small { font: 13px Arial, sans-serif; fill: #50616d; }
+      .edge { stroke: #25323b; stroke-width: 2.5; fill: none; marker-end: url(#arrow); }
+      .edge-dashed { stroke: #65747e; stroke-width: 2.25; stroke-dasharray: 8 6; fill: none; marker-end: url(#arrow-dashed); }
+      .scalar { fill: #dcecf8; stroke: #337da9; stroke-width: 2; }
+      .hvx { fill: #dff3e8; stroke: #2c9363; stroke-width: 2; }
+      .hmx { fill: #fde6c8; stroke: #d77b1d; stroke-width: 2; }
+      .vtcm { fill: #ede4f7; stroke: #7c55a6; stroke-width: 2; }
+      .mem { fill: #eef1f3; stroke: #65747e; stroke-width: 2; }
+      .data { fill: #ffffff; stroke: #65747e; stroke-width: 1.5; }
+    </style>
+  </defs>
+
+  <rect class="bg" x="0" y="0" width="1500" height="980"/>
+  <text class="title" x="60" y="54">Hexagon FlashAttention Compute Flow</text>
+  <text class="subtitle" x="60" y="82">One KV-head worker. Q/K/V projection is upstream; this kernel consumes prepared Q, K, and V.</text>
+
+  <rect x="40" y="112" width="1420" height="88" rx="6" fill="#ffffff" stroke="#d5dee4" stroke-width="1.5"/>
+  <text class="lane" x="65" y="145">Execution roles</text>
+  <rect class="scalar" x="240" y="128" width="182" height="48" rx="5"/>
+  <text class="box-title" x="286" y="158">Scalar Core</text>
+  <rect class="hvx" x="448" y="128" width="132" height="48" rx="5"/>
+  <text class="box-title" x="493" y="158">HVX</text>
+  <rect class="hmx" x="606" y="128" width="132" height="48" rx="5"/>
+  <text class="box-title" x="650" y="158">HMX</text>
+  <rect class="vtcm" x="764" y="128" width="142" height="48" rx="5"/>
+  <text class="box-title" x="803" y="158">VTCM</text>
+  <text class="small" x="935" y="149">Solid arrows: current-tile dependency</text>
+  <text class="small" x="935" y="171">Dashed arrows: next-tile prefetch / ping-pong staging</text>
+
+  <rect class="mem" x="65" y="258" width="215" height="118" rx="6"/>
+  <text class="box-title" x="107" y="291">DDR / KV Cache</text>
+  <text class="box-body" x="91" y="321">Q tile (FP32)</text>
+  <text class="box-body" x="91" y="344">K tile, V tile (FP16)</text>
+
+  <rect class="scalar" x="363" y="245" width="265" height="145" rx="6"/>
+  <text class="box-title" x="419" y="278">Scalar Core Control</text>
+  <text class="box-body" x="389" y="308">Loop over query tile ir</text>
+  <text class="box-body" x="389" y="332">Loop over KV tile jc</text>
+  <text class="box-body" x="389" y="356">Addressing, DMA, HMX acquire/release</text>
+
+  <rect class="hvx" x="715" y="238" width="300" height="160" rx="6"/>
+  <text class="box-title" x="776" y="272">HVX: Tile Preparation</text>
+  <text class="box-body" x="742" y="303">Q FP32 to FP16 and HMX layout</text>
+  <text class="box-body" x="742" y="328">K transpose / scatter to RHS layout</text>
+  <text class="box-body" x="742" y="353">V rearrangement for PV</text>
+
+  <rect class="vtcm" x="1105" y="245" width="280" height="145" rx="6"/>
+  <text class="box-title" x="1178" y="278">VTCM Tile Buffers</text>
+  <text class="box-body" x="1134" y="308">Q, K, V tiles in HMX layouts</text>
+  <text class="box-body" x="1134" y="332">S, P, running m/l, partial O</text>
+  <text class="box-body" x="1134" y="356">Low-latency producer/consumer storage</text>
+
+  <path class="edge" d="M280 317 H363"/>
+  <path class="edge" d="M628 317 H715"/>
+  <path class="edge" d="M1015 317 H1105"/>
+  <path class="edge-dashed" d="M280 279 C500 210 770 210 1105 268"/>
+
+  <rect class="hmx" x="350" y="495" width="300" height="128" rx="6"/>
+  <text class="box-title" x="442" y="530">HMX: QK MatMul</text>
+  <text class="box-body" x="397" y="560">S = Q x K^T</text>
+  <text class="box-body" x="397" y="587">Dense tiled dot products</text>
+
+  <rect class="data" x="745" y="530" width="135" height="57" rx="5"/>
+  <text class="box-title" x="790" y="565">S Tile</text>
+
+  <rect class="hvx" x="975" y="475" width="360" height="168" rx="6"/>
+  <text class="box-title" x="1050" y="510">HVX: Online Safe-Softmax</text>
+  <text class="box-body" x="1002" y="540">Mask and row maximum</text>
+  <text class="box-body" x="1002" y="566">P = exp2(S - m): native / LUT / SCNA</text>
+  <text class="box-body" x="1002" y="592">Row sum and running max/sum update</text>
+  <text class="box-body" x="1002" y="618">Write P tile to VTCM</text>
+
+  <path class="edge" d="M1245 390 V445 H500 V495"/>
+  <path class="edge" d="M650 559 H745"/>
+  <path class="edge" d="M880 559 H975"/>
+  <path class="edge" d="M1155 643 V684 H1245"/>
+
+  <rect class="data" x="1178" y="684" width="135" height="57" rx="5"/>
+  <text class="box-title" x="1223" y="719">P Tile</text>
+
+  <rect class="hmx" x="714" y="773" width="350" height="130" rx="6"/>
+  <text class="box-title" x="805" y="808">HMX: PV and Online Accumulation</text>
+  <text class="box-body" x="755" y="839">O_new = alpha x O_prev + P x V</text>
+  <text class="box-body" x="755" y="866">alpha = exp2(m_prev - m_new)</text>
+
+  <rect class="hvx" x="1155" y="773" width="230" height="130" rx="6"/>
+  <text class="box-title" x="1207" y="808">HVX: Finalize</text>
+  <text class="box-body" x="1181" y="839">Normalize by row sum</text>
+  <text class="box-body" x="1181" y="866">Scale and store O</text>
+
+  <path class="edge" d="M1245 741 V748 H889 V773"/>
+  <path class="edge" d="M1064 838 H1155"/>
+  <path class="edge" d="M1385 838 H1430 V930 H280 V376"/>
+  <text class="small" x="540" y="950">Repeat for the next KV tile. Final output is written after all KV tiles are consumed.</text>
+</svg>
