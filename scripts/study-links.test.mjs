@@ -49,3 +49,11 @@ test("a unique same-name folder index or nested SVG is resolved", () => {
     "/note/cs/assets/diagram.svg",
   )
 })
+
+test("dots in note titles preserve the exact emitted filename on Linux", () => {
+  const slugs = new Set(["note/cs/gense/lec1.intro"])
+  assert.equal(
+    resolveStudyLink("index", "Note/CS/GenSE/Lec1.Intro", slugs),
+    "/note/cs/gense/lec1.intro",
+  )
+})

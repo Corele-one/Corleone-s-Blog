@@ -21,8 +21,14 @@ export function resolveStudyLink(source, target, slugs) {
   const absolute = slug.replace(/^\//, "")
   const find = (candidate) => {
     candidate = slugifyFilePath(candidate)
-    if (!folder && slugs.has(candidate)) return candidate
-    if (slugs.has(candidate + "/index")) return candidate + "/index"
+    const exact = (name) =>
+      slugs.has(name)
+        ? name
+        : [...slugs].find((known) => known.toLowerCase() === name.toLowerCase())
+    const file = !folder && exact(candidate)
+    if (file) return file
+    const index = exact(candidate + "/index")
+    if (index) return index
     return undefined
   }
   const explicitRelative = decoded.startsWith("./") || decoded.startsWith("../")
@@ -37,7 +43,9 @@ export function resolveStudyLink(source, target, slugs) {
     resolved = find(local) ?? find(absolute)
     if (!resolved) {
       const matches = [...slugs].filter(
-        (candidate) => candidate.endsWith("/" + slug) || candidate.endsWith("/" + slug + "/index"),
+        (candidate) =>
+          candidate.toLowerCase().endsWith("/" + slug.toLowerCase()) ||
+          candidate.toLowerCase().endsWith("/" + slug.toLowerCase() + "/index"),
       )
       if (matches.length === 1) resolved = matches[0]
     }

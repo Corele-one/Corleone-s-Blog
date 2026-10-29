@@ -1,20 +1,25 @@
 import fs from "node:fs"
 import path from "node:path"
 import { fileURLToPath } from "node:url"
+import { slugifyFilePath } from "@quartz-community/utils"
 
 const repo = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..")
 const root = path.join(repo, "public")
 const config = JSON.parse(fs.readFileSync(path.join(repo, "sync.config.json"), "utf8"))
 const landingPages = new Set(
-  Object.values(config.sitePages).map((name) => name.replace(/\.md$/, ".html")),
+  Object.values(config.sitePages).map((name) => slugifyFilePath(name) + ".html"),
 )
 
 function walk(directory) {
   return fs.readdirSync(directory, { withFileTypes: true }).flatMap((entry) => {
     const name = path.join(directory, entry.name)
-    return entry.isDirectory() ? walk(name) : name.endsWith(".html") ? [name] : []
+    return entry.isDirectory() ? walk(name) : [name]
   })
 }
+
+// Compare actual directory entries, even on a case-insensitive Mac filesystem.
+// This catches links that would work locally but fail on GitHub Pages/Linux.
+const emittedFiles = new Set(walk(root))
 
 function exists(from, href) {
   href = href.replaceAll("&amp;", "&")
@@ -31,15 +36,15 @@ function exists(from, href) {
     return false
   }
   if (target !== root && !target.startsWith(root + path.sep)) return false
-  return [target, target + ".html", path.join(target, "index.html")].some(
-    (candidate) => fs.existsSync(candidate) && fs.statSync(candidate).isFile(),
+  return [target, target + ".html", path.join(target, "index.html")].some((candidate) =>
+    emittedFiles.has(candidate),
   )
 }
 
 const failures = []
 const noteLinks = []
 let count = 0
-for (const file of walk(root)) {
+for (const file of [...emittedFiles].filter((name) => name.endsWith(".html"))) {
   count++
   const relative = path.relative(root, file)
   const html = fs.readFileSync(file, "utf8")
@@ -65,7 +70,7 @@ for (const file of walk(root)) {
   }
 }
 for (const landing of landingPages) {
-  if (!fs.existsSync(path.join(root, landing)))
+  if (!emittedFiles.has(path.join(root, landing)))
     failures.push({ page: landing, kind: "missing landing page" })
 }
 const report = { pages: count, failures, sourceNoteIssues: noteLinks }
