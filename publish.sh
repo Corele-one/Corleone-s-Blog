@@ -39,5 +39,5 @@ if [ "$(git rev-list --count '@{upstream}..HEAD')" -eq 0 ]; then
   exit 0
 fi
 
-git push
+git -c http.version=HTTP/1.1 push --progress
 echo "Pushed. Follow deployment: https://github.com/Corele-one/Corleone-s-Blog/actions"
