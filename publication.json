@@ -1,5 +1,37 @@
 {
   "version": 1,
-  "excludedPaths": ["Note/CS/GenSE"],
-  "overrides": {}
+  "excludedPaths": [
+    "Note/CS/GenSE",
+    "Research/Project/Edge.llm/Code/SnapdragonNPU/HTP_OPS_LIB_MAIN_TUTORIAL.zh-CN.md",
+    "Research/Project/Edge.llm/Code/SnapdragonNPU/SnapdragonNPU_Overview.md",
+    "Research/Project/Edge.llm/Code/SnapdragonNPU/00-roadmap.md",
+    "Research/Project/Edge.llm/Code/SnapdragonNPU/w4-w8-a16/04-building-and-running.md",
+    "Research/Project/Edge.llm/Code/SnapdragonNPU/w4-w8-a16/03-gguf-conversion.md",
+    "Research/Project/Edge.llm/Code/SnapdragonNPU/w4-w8-a16/02-dequant-pipeline.md",
+    "Research/Project/Edge.llm/Code/SnapdragonNPU/w4-w8-a16/01-quantization-formats.md",
+    "Research/Project/Edge.llm/Code/SnapdragonNPU/w4-w8-a16/00-index.md",
+    "Research/Project/Edge.llm/Code/SnapdragonNPU/pure-fp16/04-lpbq-experiments.md",
+    "Research/Project/Edge.llm/Code/SnapdragonNPU/pure-fp16/03-scripts-and-deployment.md",
+    "Research/Project/Edge.llm/Code/SnapdragonNPU/pure-fp16/02-optimizations.md",
+    "Research/Project/Edge.llm/Code/SnapdragonNPU/pure-fp16/01-w16a32-matmul.md",
+    "Research/Project/Edge.llm/Code/SnapdragonNPU/pure-fp16/00-index.md",
+    "Research/Project/Edge.llm/Code/SnapdragonNPU/flashattention/07-building-and-running.md",
+    "Research/Project/Edge.llm/Code/SnapdragonNPU/flashattention/06-profiling-and-tools.md",
+    "Research/Project/Edge.llm/Code/SnapdragonNPU/flashattention/05-hardware-accelerators.md",
+    "Research/Project/Edge.llm/Code/SnapdragonNPU/flashattention/04-kernel-deep-dive.md",
+    "Research/Project/Edge.llm/Code/SnapdragonNPU/flashattention/03-flash-attn-algorithm.md",
+    "Research/Project/Edge.llm/Code/SnapdragonNPU/flashattention/02-inference-pipeline.md",
+    "Research/Project/Edge.llm/Code/SnapdragonNPU/flashattention/01-environment-and-architecture.md",
+    "Research/Project/Edge.llm/Code/SnapdragonNPU/flashattention/00-index.md",
+    "Research/Project/Edge.llm/Optimization Plan v2.md",
+    "Research/Project/Edge.llm/Optimization Plan.md"
+  ],
+  "overrides": {
+    "index.md": {
+      "baseHash": "38b09074bc02781e9838d4d02d4fa4fde28658a390ec4d979e3c7ad9375da0ae"
+    },
+    "Research/Research-Insight/怎么读代码？.md": {
+      "baseHash": "32c375d841a156c938b4e1ee9963c7a9ddf45554e00244fd136722982277b917"
+    }
+  }
 }
