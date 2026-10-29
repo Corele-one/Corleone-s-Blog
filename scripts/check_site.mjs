@@ -91,7 +91,7 @@ if (noteLinks.length) {
     "Source note issues are recorded in .local/study-sync/site-check.json; correct the originals in Study.",
   )
 }
-if (failures.length) {
+if (failures.length || noteLinks.length) {
   for (const failure of failures) console.error(JSON.stringify(failure))
   process.exitCode = 1
 }

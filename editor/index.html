@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="editor-token" content="EDITOR_TOKEN_PLACEHOLDER" />
+    <title>Corleone · Blog Studio</title>
+    <link rel="stylesheet" href="/style.css" />
+    <script src="/app.js" defer></script>
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="brand">
+        <button id="menu" class="mobile-only" aria-label="打开页面目录">☰</button>
+        <div>
+          <strong>Corleone <span>Blog Studio</span></strong
+          ><small>整理、取舍，再分享。</small>
+        </div>
+      </div>
+      <nav class="workflow" aria-label="同步和发布">
+        <button id="sync">① 同步笔记</button>
+        <button id="build">② 本地预览</button>
+        <button id="publish" class="primary">③ 发布网站</button>
+      </nav>
+    </header>
+    <main>
+      <aside id="sidebar">
+        <label class="search"
+          ><span>搜索页面</span
+          ><input id="search" type="search" placeholder="标题或目录…" autocomplete="off"
+        /></label>
+        <div class="filters" role="group" aria-label="页面筛选">
+          <button data-filter="all" class="active">全部</button
+          ><button data-filter="edited">已编辑</button><button data-filter="hidden">已隐藏</button>
+        </div>
+        <p id="page-count" class="muted"></p>
+        <nav id="pages" aria-label="页面目录"></nav>
+        <details class="rules">
+          <summary>隐藏的页面 / 目录</summary>
+          <div id="rules"></div>
+          <small>恢复后仍需发布，才会出现在网站。</small>
+        </details>
+        <div class="source">
+          <span class="local-dot"></span> 只在本机运行<small id="source"></small>
+        </div>
+      </aside>
+      <section class="workspace">
+        <div class="page-heading">
+          <div>
+            <p id="page-path" class="eyebrow">载入页面中</p>
+            <h1 id="page-title">你的博客工作台</h1>
+            <div id="badges"></div>
+          </div>
+          <button id="hide" disabled>隐藏此页</button>
+        </div>
+        <div id="conflict" class="notice" hidden>
+          原笔记已更新。请展开下方「查看原笔记」进行对比，再保存博客版本。
+        </div>
+        <div id="message" role="status" aria-live="polite" hidden></div>
+        <div class="editor-tools">
+          <div class="tabs" role="group" aria-label="编辑和预览">
+            <button id="edit-tab" class="active">编辑内容</button
+            ><button id="preview-tab">网页预览</button>
+          </div>
+          <div id="save-tools">
+            <button id="remove-selection">删除选中文字</button><button id="reset">恢复原文</button
+            ><button id="save" class="primary" disabled>保存博客版本</button>
+          </div>
+        </div>
+        <div id="editing" class="editor-pane">
+          <textarea
+            id="content"
+            aria-label="博客 Markdown 内容"
+            spellcheck="false"
+            placeholder="从左侧选择一篇笔记…"
+          ></textarea>
+          <div class="editor-footer">
+            <span id="save-state">保存只影响博客，Study 原笔记保留。</span
+            ><span id="selection-hint">可直接编辑 Markdown，或选中文字后删除。</span>
+          </div>
+          <details id="original-panel">
+            <summary>查看原笔记（只读）</summary>
+            <textarea
+              id="original"
+              aria-label="原笔记内容，只读"
+              readonly
+              spellcheck="false"
+            ></textarea>
+          </details>
+        </div>
+        <div id="previewing" class="preview-pane" hidden>
+          <div class="preview-tools">
+            <span>本地构建预览</span><button id="preview-current">返回当前页面</button
+            ><button id="mobile-preview">手机宽度</button
+            ><a id="open-preview" target="_blank" rel="noopener">独立窗口打开</a>
+          </div>
+          <div id="preview-empty">点击「本地预览」生成最新网页。保存内容不会自动发布。</div>
+          <div id="frame-wrap" hidden>
+            <iframe
+              id="preview-frame"
+              title="博客本地预览"
+              sandbox="allow-scripts allow-same-origin"
+            ></iframe>
+          </div>
+        </div>
+        <details id="task-panel" hidden>
+          <summary id="task-title">任务记录</summary>
+          <div class="task-actions">
+            <button id="apply-sync" class="primary" hidden>应用这次同步</button
+            ><button id="cancel-job" hidden>停止任务</button
+            ><a
+              href="https://github.com/Corele-one/Corleone-s-Blog/actions"
+              target="_blank"
+              rel="noopener"
+              >查看线上部署 ↗</a
+            >
+          </div>
+          <pre id="task-log" aria-live="polite"></pre>
+        </details>
+      </section>
+    </main>
+  </body>
+</html>

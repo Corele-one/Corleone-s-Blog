@@ -11,6 +11,7 @@ import re
 import shutil
 import sys
 import tempfile
+from blog_publication import apply_policy, hidden_by, load_policy
 
 ROOT = Path(__file__).resolve().parents[1]
 MANIFEST = ".study-sync-manifest.json"
@@ -43,6 +44,7 @@ def safe_target(content, name):
 
 
 def collect(source, repo, config):
+    policy = load_policy(repo)
     desired = {}
     skipped = Counter()
     counts = Counter()
@@ -51,6 +53,7 @@ def collect(source, repo, config):
         if not base.is_dir() or any(p.is_symlink() for p in [base, *base.parents]):
             raise ValueError(f"Missing directory or symlink in source: {folder}")
         before = len(desired)
+        source_count = 0
         for directory, dirs, names in os.walk(base, followlinks=False):
             parent = Path(directory)
             allowed_dirs = []
@@ -75,6 +78,10 @@ def collect(source, repo, config):
                 if path.stat().st_size >= 100 * 1024 * 1024:
                     raise ValueError(f"File exceeds GitHub's 100 MiB limit: {path.relative_to(source)}")
                 key = path.relative_to(source).as_posix()
+                source_count += 1
+                if hidden_by(key, policy):
+                    skipped["unpublished files"] += 1
+                    continue
                 if path.suffix.lower() in {".md", ".svg", ".canvas", ".base", ".excalidraw"}:
                     text = path.read_text(encoding="utf-8")
                     for rule, pattern in SECRET_PATTERNS.items():
@@ -82,14 +89,23 @@ def collect(source, repo, config):
                             raise ValueError(f"Possible {rule} in {key}; value suppressed. Review before sharing.")
                 desired[key] = path
                 counts[folder] += 1
-        if len(desired) == before:
+        if source_count == 0:
             raise ValueError(f"No publishable files in {folder}; refusing to erase a directory.")
     for origin, destination in config["sitePages"].items():
         relative(origin)
         relative(destination)
+        site_source = repo / origin
+        if any(p.is_symlink() for p in [site_source, *site_source.parents]):
+            raise ValueError(f"Site source symlink: {origin}")
         if destination in desired:
             raise ValueError(f"Source note conflicts with site page: {destination}. Update sitePages first.")
         desired[destination] = repo / origin
+    desired = apply_policy(repo, desired, policy)
+    for name in policy["overrides"]:
+        if name in desired:
+            for label, pattern in SECRET_PATTERNS.items():
+                if pattern.search(desired[name].read_text()):
+                    raise ValueError(f"Possible {label} in blog override {name}; value suppressed.")
     # Quartz slugs are case-sensitive on Pages but the Mac filesystem may not be.
     casefolded = {}
     for key in desired:

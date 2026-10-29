@@ -22,7 +22,7 @@ description: 一个微电子专业学生在 AI 时代的学习历程：从课程
 ## 几条学习线索
 
 - **从专业基础出发**：[[Note/ME/Analog/运算放大器/运算放大器\|模拟电路]] → [[Note/ME/Digital Design/数字IC笔记整理\|数字设计]] → [[Note/ME/ysyx/E1-C_Program\|计算机与编程]]。
-- **理解 AI，也理解学习方式的变化**：[[Lecture/AI能力边界及其对人才培养影响\|AI 能力边界与人才培养]] → [[Note/CS/GenSE/Lec1.Intro\|生成式软件工程]] → [[Research/Research-Insight/怎么读代码？\|如何读代码]]。
+- **理解 AI，也理解学习方式的变化**：[[Lecture/AI能力边界及其对人才培养影响\|AI 能力边界与人才培养]] → [[Research/Research-Insight/怎么读代码？\|如何读代码]]。
 - **沿着一个问题深入**：[[Blog/CIM/Note For Memory Centered Calculation\|存内计算]] → [[Research/Project/Edge.llm/Summary of llm on mobile NPU\|移动 NPU 上的 LLM]] → [[Research/Project/Edge.llm/Code/SnapdragonNPU/00-roadmap\|Snapdragon NPU 代码学习路线]]。
 
 这些笔记保留了学习过程中的阶段性理解，可能有遗漏或错误。欢迎通过 [GitHub Discussions](https://github.com/Corele-one/Corleone-s-Blog/discussions) 交流和纠正。

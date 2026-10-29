@@ -16,7 +16,7 @@
     "sync": "python3 scripts/sync_study.py --apply",
     "sync:check": "python3 scripts/sync_study.py --check",
     "test:sync": "python3 -m unittest discover -s scripts -p 'test_*.py'",
-    "test:links": "node --test scripts/study-links.test.mjs",
+    "test:links": "node --test scripts/study-links.test.mjs scripts/clean-site.test.mjs",
     "build": "node quartz/bootstrap-cli.mjs build",
     "verify:site": "node scripts/check_site.mjs",
     "preview": "node quartz/bootstrap-cli.mjs build --serve",
@@ -28,7 +28,9 @@
     "test": "tsx --test",
     "profile": "0x -D prof ./quartz/bootstrap-cli.mjs build --concurrency=1",
     "install-plugins": "node quartz/bootstrap-cli.mjs plugin install",
-    "prebuild": "npm run install-plugins"
+    "prebuild": "npm run install-plugins",
+    "postbuild": "node scripts/clean_site.mjs",
+    "editor": "python3 scripts/blog_editor.py"
   },
   "engines": {
     "npm": ">=10.9.2",
@@ -78,7 +80,8 @@
     "workerpool": "^10.0.1",
     "ws": "^8.19.0",
     "yaml": "^2.8.2",
-    "yargs": "^18.0.0"
+    "yargs": "^18.0.0",
+    "parse5": "7.3.0"
   },
   "devDependencies": {
     "@quartz-community/types": "github:quartz-community/types",

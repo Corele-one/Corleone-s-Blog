@@ -25,6 +25,11 @@ if result.returncode:
 previous = json.loads(result.stdout)['files']
 paths = [f':(literal)content/{key}' for key in sorted(set(current) | set(previous))]
 paths.append(f':(literal){name}')
+paths.append(':(literal)publication.json')
+policy = json.loads(Path('publication.json').read_text())
+old_policy = subprocess.run(['git', 'show', 'HEAD:publication.json'], capture_output=True, text=True)
+old_overrides = json.loads(old_policy.stdout)['overrides'] if old_policy.returncode == 0 else {}
+paths.extend(f':(literal)overrides/{key}' for key in sorted(set(policy['overrides']) | set(old_overrides)))
 subprocess.run(
     ['git', 'add', '-A', '--pathspec-from-file=-', '--pathspec-file-nul'],
     input=('\0'.join(paths) + '\0').encode(), check=True,

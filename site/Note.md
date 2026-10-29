@@ -13,7 +13,6 @@ title: Note · 学习笔记
 
 ## CS · 计算机与 AI
 
-- [[Note/CS/GenSE/|生成式软件工程]]：Prompt Engineering、项目管理、需求、架构与 Agent。
 - [[Note/CS/CSAPP/|计算机系统]]：信息表示与浮点数。
 - [[Note/CS/DeepLearning/|深度学习]]：残差网络与反向传播。
 - [[Note/CS/TheMissing/|The Missing Semester]]：调试与性能分析。

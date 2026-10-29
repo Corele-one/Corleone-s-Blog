@@ -6,6 +6,9 @@ import json
 from pathlib import Path
 import tempfile
 import unittest
+import sys
+
+sys.path.insert(0, str(Path(__file__).parent))
 
 spec = importlib.util.spec_from_file_location("sync_study", Path(__file__).with_name("sync_study.py"))
 sync = importlib.util.module_from_spec(spec)
